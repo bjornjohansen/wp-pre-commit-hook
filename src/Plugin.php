@@ -17,8 +17,8 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\ProcessBuilder;
 
-class Plugin implements PluginInterface, EventSubscriberInterface
-{
+class Plugin implements PluginInterface, EventSubscriberInterface {
+
 
 	/**
 	 * @var Composer
@@ -29,16 +29,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 	 * @var IOInterface
 	 */
 	private $io;
-
-	/**
-	 * @var array
-	 */
-	private $installedPaths;
-
-	/**
-	 * @var ProcessBuilder
-	 */
-	private $processBuilder;
 
 	/**
 	 * Triggers the plugin's main functionality.
@@ -53,8 +43,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 	 * @throws ProcessFailedException
 	 * @throws RuntimeException
 	 */
-	public static function run(Event $event)
-	{
+	public static function run( Event $event ) {
 		$io = $event->getIO();
 		$composer = $event->getComposer();
 		$instance = new static();
@@ -72,56 +61,52 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 	 * @throws RuntimeException
 	 * @throws ProcessFailedException
 	 */
-	public function activate(Composer $composer, IOInterface $io)
-	{
-		echo "ACTIVATED, YO!\n";
+	public function activate( Composer $composer, IOInterface $io ) {
 		$this->composer = $composer;
 		$this->io = $io;
 		$this->init();
 	}
 
 	/**
-     * Prepares the plugin so it's main functionality can be run.
-     *
-     * @throws \RuntimeException
-     * @throws LogicException
-     * @throws ProcessFailedException
-     * @throws RuntimeException
-     */
-    private function init()
-    {
-    	echo "BAR\n";
-        $io = $this->io;
-        $io->write('<info>Hello, World! (from init)</info>');
-    }
+	 * Prepares the plugin so it's main functionality can be run.
+	 *
+	 * @throws \RuntimeException
+	 * @throws LogicException
+	 * @throws ProcessFailedException
+	 * @throws RuntimeException
+	 */
+	private function init() {
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public static function getSubscribedEvents()
-    {
-        return array(
-            ScriptEvents::POST_INSTALL_CMD => array(
-                array('onDependenciesChangedEvent', 0),
-            ),
-            ScriptEvents::POST_UPDATE_CMD => array(
-                array('onDependenciesChangedEvent', 0),
-            ),
-        );
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public static function getSubscribedEvents() {
+		return array(
+			ScriptEvents::POST_INSTALL_CMD => array(
+				array( 'onDependenciesChangedEvent', 0 ),
+			),
+			ScriptEvents::POST_UPDATE_CMD => array(
+				array( 'onDependenciesChangedEvent', 0 ),
+			),
+		);
+	}
 
-    /**
-     * Entry point for post install and post update events.
-     *
-     * @throws \InvalidArgumentException
-     * @throws RuntimeException
-     * @throws LogicException
-     * @throws ProcessFailedException
-     */
-    public function onDependenciesChangedEvent()
-    {
-    	echo "FOO\n";
-        $io = $this->io;
-        $io->write('<info>Hello, World! (from onDependenciesChangedEvent)</info>');
-    }
+	/**
+	 * Entry point for post install and post update events.
+	 *
+	 * @throws \InvalidArgumentException
+	 * @throws RuntimeException
+	 * @throws LogicException
+	 * @throws ProcessFailedException
+	 */
+	public function onDependenciesChangedEvent() {
+		$target_dir = getcwd() . DIRECTORY_SEPARATOR . '.git' . DIRECTORY_SEPARATOR . 'hooks';
+		if ( ! is_dir( $target_dir ) ) {
+			mkdir( $target_dir, 0775, true );
+		}
+
+		copy( __DIR__ . DIRECTORY_SEPARATOR . 'pre-commit', $target_dir . DIRECTORY_SEPARATOR . 'pre-commit' );
+		chmod( $target_dir . DIRECTORY_SEPARATOR . 'pre-commit', 0775 );
+	}
 }
