@@ -1,0 +1,29 @@
+{
+    "name": "bjornjohansen/wp-pre-commit-hook",
+    "description": "Pre-commit hook for WordPress projects",
+    "type": "scripts",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Bjørn Johansen",
+            "email": "post@bjornjohansen.no"
+        }
+    ],
+    "require": {
+        "wp-coding-standards/wpcs": "*",
+        "dealerdirect/phpcodesniffer-composer-installer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "BJWPPreCommitHook\\": "src/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "BJWPPreCommitHook\\Installer::postInstall"
+        ],
+        "post-update-cmd": [
+            "BJWPPreCommitHook\\Installer::postInstall"
+        ]
+    }
+}
