@@ -26,15 +26,22 @@ do
     FILES="$FILES \"$PROJECT/$FILE\""
 done
 
-echo "Checking Code Standard Compliance..."
+if [ -f "$PROJECT/phpcs.ruleset.xml" ]
+then
+    RULESET="$PROJECT/phpcs.ruleset.xml"
+else
+    RULESET="WordPress"
+fi
+
+echo "Checking Code Standard Compliance, using $RULESET as ruleset standard..."
 for FILE in $SFILES
 do
-    ./vendor/bin/phpcs --standard=WordPress --colors --encoding=utf-8 -n -p "$PROJECT/$FILE"
+    ./vendor/bin/phpcs --standard="$RULESET" --colors --encoding=utf-8 -n -p "$PROJECT/$FILE"
     if [ $? != 0 ]
     then
         echo "Fix the error before commit."
         echo "Run"
-        echo "  ./vendor/bin/phpcbf --standard=WordPress $FILES"
+        echo "  ./vendor/bin/phpcbf --standard=\"$RULESET\" $FILES"
         echo "for automatic fix or fix it manually."
         exit 1
     fi
