@@ -1,5 +1,7 @@
 # wp-pre-commit-hook
-Pre-commit hook for WordPress projects
+Pre-commit hook for WordPress projects.
+
+This package will install PHPCS with the WordPress Coding Standard definitions together with a git pre-commit hook script that will run PHP linting and the PHPCS whenever you do a commit to your project.
 
 ## Installation
 
