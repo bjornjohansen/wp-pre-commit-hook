@@ -95,6 +95,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 	/**
 	 * Entry point for post install and post update events.
 	 *
+	 * @todo Copy a Windows-version of the pre-commit script on WIN platforms.
+	 *
 	 * @throws \InvalidArgumentException
 	 * @throws RuntimeException
 	 * @throws LogicException
@@ -106,7 +108,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 			mkdir( $target_dir, 0775, true );
 		}
 
-		copy( __DIR__ . DIRECTORY_SEPARATOR . 'pre-commit', $target_dir . DIRECTORY_SEPARATOR . 'pre-commit' );
-		chmod( $target_dir . DIRECTORY_SEPARATOR . 'pre-commit', 0775 );
+		if ( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) ) {
+			// We currently don’t have a Windows version to install, so let’s just not break anything for now.
+		} else {
+			copy( __DIR__ . DIRECTORY_SEPARATOR . 'pre-commit', $target_dir . DIRECTORY_SEPARATOR . 'pre-commit' );
+			chmod( $target_dir . DIRECTORY_SEPARATOR . 'pre-commit', 0775 );
+		}
 	}
 }
