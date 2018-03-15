@@ -3,7 +3,7 @@ Pre-commit hook for WordPress projects.
 
 This package will install PHPCS with the WordPress Coding Standard definitions together with a git pre-commit hook script that will run PHP linting and the PHPCS whenever you do a commit to your project.
 
-If your project has a phpcs.ruleset.xml file available, the pre-commit hook will use it as a ruleset definition. Otherwise the “WordPress” ruleset will be used.
+If your project has a `phpcs.ruleset.xml` or `phpcs.xml.dist` file available, the pre-commit hook will use this file as a ruleset definition. Otherwise the “WordPress” ruleset will be used.
 
 ## Installation
 

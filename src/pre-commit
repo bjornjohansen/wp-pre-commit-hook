@@ -29,6 +29,9 @@ done
 if [ -f "$PROJECT/phpcs.ruleset.xml" ]
 then
     RULESET="$PROJECT/phpcs.ruleset.xml"
+elif [ -f "$PROJECT/phpcs.xml.dist" ]
+then
+    RULESET="$PROJECT/phpcs.xml.dist"
 else
     RULESET="WordPress"
 fi
