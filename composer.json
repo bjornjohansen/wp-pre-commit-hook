@@ -12,6 +12,7 @@
     "require": {
         "wp-coding-standards/wpcs": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "phpcompatibility/phpcompatibility-wp": "*",
         "composer-plugin-api": "^1.0"
     },
     "autoload": {
